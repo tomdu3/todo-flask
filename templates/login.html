@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Login/Signup{% endblock %}
+
+{% block main %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Login</h2>
+    <form action="{{ url_for('login') }}" method="post" class="mx-auto">
+        <div class="row justify-content-center">
+            <div class="col-10 col-md-6">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <p>Don't have an account?<a href="{{ url_for('signup') }}" class="text-decoration-none btn text-primary"> Signup <i class="bi bi-arrow-right"></i"></a>
+                <button type="submit" class="btn btn-primary w-100 mt-2">Login</button></p>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

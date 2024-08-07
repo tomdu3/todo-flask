@@ -3,17 +3,6 @@ h1 {
     font-size: x-large;
 }
 
-body {
-    background-color: lightgray;
-}
-
 #logo {
     height: 80px;
-    
-}
-
-
-.active {
-    font-weight: bold;
-    font-size: x-large;
 }

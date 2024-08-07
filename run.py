@@ -3,6 +3,7 @@ from flask import render_template, request
 from models import Users
 
 
+
 @app.route('/')
 def index():
     """default route

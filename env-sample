@@ -1,0 +1,5 @@
+# this is the sample .env file
+DATABASE_URL=postgresql://xxxxx
+FLASK_ENV=development
+FLASK_APP=name_of_the_app
+SECRET_KEY=my_secret

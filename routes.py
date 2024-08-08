@@ -1,4 +1,4 @@
-from config import app
+from config import app, db
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from models import Users
 from sqlalchemy import or_
@@ -62,11 +62,37 @@ def logout():
     flash('You have been logged out.', 'info')
     return redirect(url_for('login'))
 
-@app.route('/signup')
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
     """signup route
 
     Returns:
         template: signup.html
     """
+    if 'user_id' in session:
+        flash('You are already logged in.', 'info')
+        return redirect(url_for('index'))
+    
+    if request.method == 'POST':
+        email = request.form['email']
+        username = request.form['username']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+
+        try:
+            user = Users.query.filter_by(email=email).first()
+            if user:
+                flash('Email already exists.', 'danger')
+            elif password != confirm_password:
+                flash('Passwords do not match.', 'danger')
+            else:
+                user = Users(email=email, username=username)
+                user.password = password
+                db.session.add(user)
+                db.session.commit()
+                flash('Account created successfully. Please log in.', 'success')
+                return redirect(url_for('login'))
+        except Exception as e:
+            flash(e, 'danger')
+
     return render_template('signup.html', title='Signup')

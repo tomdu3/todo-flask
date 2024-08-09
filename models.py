@@ -3,8 +3,8 @@ from sqlalchemy.sql import func
 import bcrypt
 
 
-class Users(db.Model):
-    __tablename__ = 'Users'
+class User(db.Model):
+    __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -20,7 +20,7 @@ class Users(db.Model):
         )
     
     def __repr__(self):
-        return f'<User {self.username} {self.id}'
+        return f'<User {self.username} {self.id}>'
 
     @property
     def serialize(self):
@@ -41,9 +41,33 @@ class Users(db.Model):
             raise TypeError("Password must be a string")
 
         # Correcting how password hashing is done
-        hashed_password = bcrypt.hashpw(plaintext_password.encode('utf-8'), bcrypt.gensalt())
+        hashed_password = bcrypt.hashpw(
+            plaintext_password.encode('utf-8'),
+            bcrypt.gensalt()
+            )
         self._password = hashed_password.decode('utf-8')
 
-
     def check_password(self, plaintext_password):
-        return bcrypt.checkpw(plaintext_password.encode('utf-8'), self._password.encode('utf-8'))
+        return bcrypt.checkpw(
+            plaintext_password.encode('utf-8'),
+            self._password.encode('utf-8')
+            )
+    
+
+class Todo(db.Model):
+    __tablename__ = 'Todo'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80), nullable=False)
+    done = db.Column(db.Boolean, nullable=False)
+    created_at = db.Column(
+        db.DateTime(timezone=True),
+        server_default=func.now()
+        )
+    updated_at = db.Column(
+        db.DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now()
+        )
+
+    def __repr__(self):
+        return f'<Todo {self.title} {self.id}>'

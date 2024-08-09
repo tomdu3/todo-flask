@@ -1,8 +1,11 @@
 from config import app, db
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from models import Users
+from models import User
 from sqlalchemy import or_
 
+# create tables if they don't exist
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 def index():
@@ -29,10 +32,10 @@ def login():
         password = request.form['password']
 
         try:
-            user = Users.query.filter(
+            user = User.query.filter(
                 or_(
-                    Users.email == email,
-                    Users.username == email
+                    User.email == email,
+                    User.username == email
                     )).first()
 
             if user and user.check_password(password):
@@ -80,13 +83,13 @@ def signup():
         confirm_password = request.form['confirm_password']
 
         try:
-            user = Users.query.filter_by(email=email).first()
+            user = User.query.filter_by(email=email).first()
             if user:
                 flash('Email already exists.', 'danger')
             elif password != confirm_password:
                 flash('Passwords do not match.', 'danger')
             else:
-                user = Users(email=email, username=username)
+                user = User(email=email, username=username)
                 user.password = password
                 db.session.add(user)
                 db.session.commit()

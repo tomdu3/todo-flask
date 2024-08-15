@@ -18,6 +18,8 @@ def index():
 
     # read todos from the database
     todos = Todo.query.filter_by(user_id=session["user_id"]).all()
+    # sort todos by created_at in ascending order
+    todos = sorted(todos, key=lambda x: x.created_at)
     return render_template(
         "index.html",
         todos=todos,

@@ -58,7 +58,7 @@ class Todo(db.Model):
     __tablename__ = 'Todo'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
-    done = db.Column(db.Boolean, nullable=False)
+    done = db.Column(db.Boolean, nullable=False, default=False)
     created_at = db.Column(
         db.DateTime(timezone=True),
         server_default=func.now()

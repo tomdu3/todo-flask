@@ -1,17 +1,25 @@
 {% extends "base.html" %} {% block title %}Create Task{% endblock %} 
 
 {% block main %}
-<div class="container mt-4">
+<div class="container text-center">
     <h1>Create a New Task</h1>
     <hr>
     <form method="POST" action="{{ url_for('create_task') }}">
-        <div class="form-group">
-            <label for="title">Task Title</label>
-            <input type="text" class="form-control" id="title" name="title" placeholder="Enter task title" required>
+        <div class="form-group mt-3 justify-content-center">
+            <label for="title" class="form-label col-10 col-md-5">Task Title</label>
+            <div class="col-10 col-md-5 mx-auto">
+                <input type="text" class="form-control text-center" id="title" name="title" placeholder="Enter task title" required>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Create Task</button>
+        <div class="text-center mt-3">
+            <button type="submit" class="btn btn-primary">Create Task</button>
+        </div>
     </form>
 </div>
+
+
+
+
 {% endblock %}
 {% block scripts %} {% endblock %}
 

@@ -162,7 +162,7 @@ def create_task():
         title = request.form["title"]
 
         try:
-            todo = Todo(title=title, user_id=session["user_id"])
+            todo = Todo(title=title.title(), user_id=session["user_id"])
             db.session.add(todo)
             db.session.commit()
             flash("Task created successfully!", "success")

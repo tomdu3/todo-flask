@@ -89,10 +89,15 @@ def index():
     if "user_id" not in session:
         flash("Please log in to access this page.", "warning")
         return redirect(url_for("login"))
+    
+    user = User.query.get(session["user_id"])
+    if not user:
+        flash("User not found.", "danger")
+        return redirect(url_for("logout"))
 
     todos = Todo.query.filter_by(user_id=session["user_id"]).all()
     todos = sorted(todos, key=lambda x: x.created_at)
-    return render_template("index.html", todos=todos, title="Home")
+    return render_template("index.html", todos=todos, username=user.username, title="Home")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -172,8 +177,25 @@ def create_task():
 
     return render_template("create-task.html", title="Create Task")
 
-@app.route("/update/<int:todo_id>", methods=["GET", "POST"])
-def update(todo_id):
+@app.route("/update_task/<int:todo_id>", methods=["GET", "POST"])
+def update_task(todo_id):
+    if "user_id" not in session:
+        flash("Please log in to access this page.", "warning")
+        return redirect(url_for("login"))
+
+    todo = Todo.query.filter_by(id=todo_id, user_id=session["user_id"]).first_or_404()
+    if request.method == "POST":
+        todo.title = request.form["title"]
+
+        try:
+            db.session.commit()
+            flash("Task updated successfully!", "success")
+            return redirect(url_for("index"))
+        except Exception as e:
+            db.session.rollback()  # Rollback in case of an error
+            flash("An error occurred: " + str(e), "danger")
+
+    return render_template("update-task.html", todo=todo, title="Update Task")
     if "user_id" not in session:
         flash("Please log in to access this page.", "warning")
         return redirect(url_for("login"))
@@ -189,7 +211,7 @@ def update(todo_id):
         except Exception as e:
             flash(str(e), "danger")
 
-    return render_template("update.html", todo=todo, title="Update Task")
+    return render_template("update-task.html", todo=todo, title="Update Task")
 
 @app.route("/delete/<int:todo_id>")
 def delete(todo_id):

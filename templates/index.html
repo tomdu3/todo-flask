@@ -1,26 +1,30 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block main %}
 <div class="container mt-4 mx-lg-auto col-md-6 col-11">
   <h1 class="text-center">Tasks</h1>
-  <hr>
+  <hr />
   <!-- add new task -->
-   <div class="mb-3 d-flex justify-content-end pr-10">
-    <a href="{{ url_for('create_task') }}" class="btn btn-primary mb-2">Add New Task</a>
-   </div>
+  <div class="mb-3 d-flex justify-content-end pr-10">
+    <a href="{{ url_for('create_task') }}" class="btn btn-primary mb-2"
+      >Add New Task</a
+    >
+  </div>
   {% if todos %}
   <table class="table table-striped table-bordered">
     <thead class="thead-dark">
       <tr>
         <th scope="col">Task</th>
         <th scope="col" class="text-center">Status</th>
-        <th scope="col" class="text-center">Change Status</th>
         <th scope="col" class="text-center">Delete</th>
       </tr>
     </thead>
     <tbody>
       {% for todo in todos %}
       <tr>
-        <td>{{ todo.title }}</td>
-        <td class="text-center">{{ '✅' if todo.done else '❌' }}</td>
+        <td>
+          <a class="text-decoration-underline text-dark " href="{{ url_for('update_task', todo_id=todo.id) }}">
+            {{ todo.title }}
+          </a>
+        </td>
         <td class="text-center">
           <form
             method="POST"
@@ -33,18 +37,20 @@
             />
             <button
               type="submit"
-              class="btn btn-sm {{ 'btn-success' if not todo.done else 'btn-warning' }}"
+              class="btn btn-sm border border-gray-600 {{ 'fw-bold' if not todo.done else 'btn-warning' }}"
             >
-              {{ 'Mark as Done' if not todo.done else 'Mark as Not Done' }}
+              {{ '✅' if todo.done else '❌' }}
             </button>
           </form>
         </td>
+
         <td class="text-center">
           <a
             href="{{ url_for('delete', todo_id=todo.id) }}"
-            class="btn btn-danger btn-sm">
+            class="btn btn-danger btn-sm"
+          >
             Delete
-            </a>
+          </a>
         </td>
       </tr>
       {% endfor %}

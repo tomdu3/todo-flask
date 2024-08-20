@@ -90,14 +90,10 @@ def index():
         flash("Please log in to access this page.", "warning")
         return redirect(url_for("login"))
     
-    user = User.query.get(session["user_id"])
-    if not user:
-        flash("User not found.", "danger")
-        return redirect(url_for("logout"))
-
     todos = Todo.query.filter_by(user_id=session["user_id"]).all()
     todos = sorted(todos, key=lambda x: x.created_at)
-    return render_template("index.html", todos=todos, username=user.username, title="Home")
+    return render_template("index.html", todos=todos, title="Home")
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -119,6 +115,7 @@ def login():
 
 @app.route("/about")
 def about():
+
     return render_template("about.html", title="About")
 
 @app.route("/logout")
@@ -239,6 +236,16 @@ def update_status(todo_id):
 
     flash("Task status updated successfully!", "success")
     return redirect(url_for("index"))
+
+
+@app.context_processor
+def inject_user():
+    """Injects the current user's username into all templates."""
+    if "user_id" in session:
+        user = User.query.get(session["user_id"])
+        if user:
+            return {'username': user.username}
+    return {'username': None}
 
 # Run the application
 if __name__ == '__main__':

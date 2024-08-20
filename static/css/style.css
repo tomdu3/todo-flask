@@ -11,7 +11,7 @@ nav {
 }
 
 h1 {
-    color: darkolivegreen;
+    color: orangered;
     font-size: x-large;
 }
 
@@ -48,3 +48,4 @@ input#title {
     background-color: rgba(255, 236, 200, 0.9);
     border-color: rgba(87, 67, 31, 0.9);
 }
+

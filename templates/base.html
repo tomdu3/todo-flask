@@ -28,11 +28,6 @@
         <a class="navbar-brand" href="{{ url_for('index') }}">
             <img id="logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="d-inline-block align-text-top img-fluid rounded-circle">
         </a>
-        <!-- Greeting User -->
-        <div class="navbar-text">
-          {% if username %}
-          Hello, <span class="fw-bold">{{ username | capitalize  }}</span>!
-          {% endif %}</div>
         <button class="navbar-toggler border-gray-600 bg-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
       </button>
@@ -49,7 +44,8 @@
             <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item">
                     {% if session['user_id'] %}
-                        <a class="nav-link btn btn-outline-info text-dark" href="{{ url_for('logout') }}">Logout</a>
+                        <a class="nav-link btn btn-outline-info text-dark" href="{{ url_for('logout') }}">Logout <span class="fw-bold">| {{ username | capitalize  }}</span>
+                        </a>
                     {% else %}
                         <a
                         class="nav-link btn btn-outline-info text-dark" href="{{ url_for('login') }}">Login/Signup</a>

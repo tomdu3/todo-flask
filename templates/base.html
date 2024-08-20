@@ -44,7 +44,7 @@
             <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item">
                     {% if session['user_id'] %}
-                        <a class="nav-link btn btn-outline-info text-dark" href="{{ url_for('logout') }}">Logout <span class="fw-bold">| {{ username | capitalize  }}</span>
+                        <a class="nav-link btn btn-outline-info text-dark" href="{{ url_for('logout') }}">Logout {% if username %}<span class="fw-bold">| {{ username | capitalize  }}</span>{% endif %}
                         </a>
                     {% else %}
                         <a

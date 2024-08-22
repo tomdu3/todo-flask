@@ -21,7 +21,7 @@
       {% for todo in todos %}
       <tr>
         <td>
-          <a class="text-decoration-underline text-dark " href="{{ url_for('update_task', todo_id=todo.id) }}">
+          <a class="text-decoration-underline text-dark" id="task-{{ loop.index }}" href="{{ url_for('update_task', todo_id=todo.id) }}">
             {{ todo.title }}
           </a>
         </td>

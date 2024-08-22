@@ -16,6 +16,10 @@ def register_routes(app):
 
     @app.route("/login", methods=["GET", "POST"])
     def login():
+        # check if the user is logged in
+        if "user_id" in session:
+            flash("You are already logged in.", "info")
+            return redirect(url_for("index"))
         if request.method == "POST":
             email = request.form["email"]
             password = request.form["password"]

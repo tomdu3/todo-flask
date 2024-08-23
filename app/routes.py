@@ -7,7 +7,7 @@ def register_routes(app):
     @app.route("/")
     def index():
         if "user_id" not in session:
-            flash("Please log in to access this page.", "warning")
+            flash("Please log in to access this page.", "secondary")
             return redirect(url_for("login"))
         
         todos = Todo.query.filter_by(user_id=session["user_id"]).all()
@@ -18,7 +18,7 @@ def register_routes(app):
     def login():
         # check if the user is logged in
         if "user_id" in session:
-            flash("You are already logged in.", "info")
+            flash("You are already logged in.", "secondary")
             return redirect(url_for("index"))
         if request.method == "POST":
             email = request.form["email"]
@@ -79,7 +79,7 @@ def register_routes(app):
     @app.route("/create-task", methods=["GET", "POST"])
     def create_task():
         if "user_id" not in session:
-            flash("Please log in to access this page.", "warning")
+            flash("Please log in to access this page.", "secondary")
             return redirect(url_for("login"))
 
         if request.method == "POST":
@@ -99,7 +99,7 @@ def register_routes(app):
     @app.route("/update_task/<int:todo_id>", methods=["GET", "POST"])
     def update_task(todo_id):
         if "user_id" not in session:
-            flash("Please log in to access this page.", "warning")
+            flash("Please log in to access this page.", "secondary")
             return redirect(url_for("login"))
 
         todo = Todo.query.filter_by(id=todo_id, user_id=session["user_id"]).first_or_404()
@@ -119,7 +119,7 @@ def register_routes(app):
     @app.route("/delete/<int:todo_id>")
     def delete(todo_id):
         if "user_id" not in session:
-            flash("Please log in to access this page.", "warning")
+            flash("Please log in to access this page.", "secondary")
             return redirect(url_for("login"))
 
         todo = Todo.query.filter_by(id=todo_id, user_id=session["user_id"]).first_or_404()
@@ -132,7 +132,7 @@ def register_routes(app):
     @app.route("/update_status/<int:todo_id>", methods=["POST"])
     def update_status(todo_id):
         if "user_id" not in session:
-            flash("Please log in to access this page.", "warning")
+            flash("Please log in to access this page.", "secondary")
             return redirect(url_for("login"))
 
         todo = Todo.query.filter_by(id=todo_id, user_id=session["user_id"]).first_or_404()

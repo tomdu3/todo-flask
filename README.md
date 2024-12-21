@@ -1,5 +1,8 @@
 # Todo Flask App
-[Link to the deployed site (wait a bit for the first loading)](https://todo-flask-gqvh.onrender.com/)
+![Screenshot of the page](./docs/todo-flask.png)
+[Link to the deployed site](https://todo-flask-gqvh.onrender.com/). NB: wait a bit for the first loading
+
+
 A simple Flask/Bootstrap Todo App
 PostgreSQL Database
 

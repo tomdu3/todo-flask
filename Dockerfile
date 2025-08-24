@@ -1,6 +1,13 @@
 # Use an official Python runtime as a parent image
 FROM python:3.9-slim
 
+# Install system dependencies required for psycopg2
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    libpq-dev \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
 # Set the working directory in the container
 WORKDIR /app
 
@@ -17,7 +24,7 @@ COPY . .
 EXPOSE 5000
 
 # Define environment variable
-ENV FLASK_APP run.py
+ENV FLASK_APP=run.py
 
 # Run the app. Gunicorn is used as the production server
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "run:app"]

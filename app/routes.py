@@ -1,9 +1,13 @@
-from flask import flash, redirect, render_template, request, session, url_for
+from flask import flash, redirect, render_template, request, session, url_for, jsonify
 from .models import db, User, Todo
 from sqlalchemy import or_
 
 def register_routes(app):
-    
+
+    @app.route('/health', methods=['GET'])
+    def health():
+        return jsonify(status="healthy"), 200
+
     @app.route("/")
     def index():
         if "user_id" not in session:

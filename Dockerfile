@@ -8,6 +8,7 @@ RUN apt-get update && \
     gcc \
     build-essential \
     libc6-dev \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
@@ -27,6 +28,9 @@ EXPOSE 5000
 
 # Define environment variable
 ENV FLASK_APP=run.py
+
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 CMD curl -f http://localhost:5000/health || exit 1
 
 # Run the app. Gunicorn is used as the production server
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "run:app"]
